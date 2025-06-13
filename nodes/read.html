@@ -1,0 +1,69 @@
+<script type="text/javascript">
+  RED.nodes.registerType('ghost-read', {
+    category: 'Ghost Client',
+    color: '#D1A3F5', // purple
+    defaults: {
+      name: { value: '' },
+      readPostId: { value: '', required: true },
+      readPostIdType: { value: 'str' },
+    },
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["Success", "Error"],
+    icon: "font-awesome/fa-search",
+    paletteLabel: "Read Post",
+    label() {
+      return this.name || "Read Ghost Post";
+    },
+    oneditprepare() {
+      $('#node-input-readPostId').typedInput({
+        type: 'str',
+        types: ['str', 'msg', 'flow', 'global'],
+        typeField: '#node-input-readPostIdType'
+      });
+    },
+    oneditsave() { },
+    oneditcancel() { },
+    oneditdelete() { },
+    oneditresize() { }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="ghost-read">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-readPostId"><i class="fa fa-id-badge"></i> Post ID</label>
+    <input type="text" id="node-input-readPostId" placeholder="Post ID">
+    <input type="hidden" id="node-input-readPostIdType" />
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="ghost-read">
+  <p>
+    The <strong>Read Post</strong> node retrieves a single post from Ghost CMS using the Admin API.
+  </p>
+  <ul>
+    <li>
+      <strong>Post ID</strong>: The unique identifier of the post to retrieve.
+      <br>Supports input from <code>str</code>, <code>msg</code>, <code>flow</code>, or <code>global</code> context.
+    </li>
+    <li>
+      Requires a Ghost Config node to authenticate requests.
+    </li>
+    <li>
+      On success, <code>msg.payload</code> contains the full post object returned by the Ghost Admin API.
+    </li>
+    <li>
+      On error, the second output returns an error object with details.
+    </li>
+  </ul>
+  <p>
+    See the
+    <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
+      Ghost Admin API documentation
+    </a> for details on available fields and query parameters.
+  </p>
+</script>

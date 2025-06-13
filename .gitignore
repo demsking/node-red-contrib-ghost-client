@@ -1,0 +1,10 @@
+node_modules/
+.nix-node/
+.devbox/
+.nyc_output/
+.coverage/
+coverage/
+.directory
+*.log
+*.tgz
+*.kate-swp

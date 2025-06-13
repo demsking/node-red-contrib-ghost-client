@@ -1,0 +1,78 @@
+<script type="text/javascript">
+  RED.nodes.registerType('ghost-create', {
+    category: 'Ghost Client',
+    color: '#A3F5A3',
+    defaults: {
+      name: { value: '' },
+      postPayload: { value: 'payload', required: true },
+      postPayloadType: { value: 'msg' },
+    },
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["Success", "Error"],
+    icon: "font-awesome/fa-plus-square",
+    paletteLabel: "Create Post",
+    label() {
+      return this.name || "Create Ghost Post";
+    },
+    oneditprepare() {
+      $('#node-input-postPayload').typedInput({
+        type: 'json',
+        types: ['json', 'msg', 'flow', 'global'],
+        typeField: '#node-input-postPayloadType'
+      });
+    },
+    oneditsave() { },
+    oneditcancel() { },
+    oneditdelete() { },
+    oneditresize() { }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="ghost-create">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-postPayload"><i class="fa fa-file-text"></i> Post Payload</label>
+    <input type="text" id="node-input-postPayload" placeholder='{"title":"My Post"}'>
+    <input type="hidden" id="node-input-postPayloadType" />
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="ghost-create">
+  <p>
+    The <strong>Create Post</strong> node sends a request to the Ghost Admin API to create a new blog post.
+  </p>
+  <ul>
+    <li>
+      <strong>Post Payload</strong>: A valid JSON object representing the post content.
+      <br><em>Example:</em> <code>{ "title": "My Post", "html": "&lt;p&gt;Hello world&lt;/p&gt;" }</code>
+    </li>
+    <li>
+      Supports input types: <code>json</code>, <code>msg</code>, <code>flow</code>, and <code>global</code>.
+    </li>
+    <li>
+      Requires a Ghost Config node to authenticate requests.
+    </li>
+    <li>
+      If no <code>authors</code> field is set, the configured <em>Publisher Email</em> (from the Ghost Config node) will be used.
+    </li>
+    <li>
+      Requires a valid Ghost Config node to be present in the same flow for authentication.
+    </li>
+    <li>
+      On success, outputs the created post object to <code>msg.payload</code> via the first output.
+    </li>
+    <li>
+      On failure, outputs the error to the second output.
+    </li>
+  </ul>
+  <p>
+    Refer to the
+    <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
+      Ghost Admin API documentation
+    </a> for details on post creation format.
+  </p>
+</script>

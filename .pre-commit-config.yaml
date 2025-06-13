@@ -1,0 +1,38 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+exclude: ^(tests)/.*
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: "Trailing Whitespace Remover"
+        description: "Removes trailing whitespace from all lines."
+      - id: check-added-large-files
+        name: "Check for Large Added Files"
+        description: "Prevents adding files larger than a specified size."
+      - id: check-case-conflict
+        name: "Check Case Conflict"
+        description: "Detects files with names that would conflict on a case-insensitive filesystem."
+      - id: check-json
+        name: "Check JSON Syntax"
+        description: "Validates JSON files for syntax errors."
+      - id: detect-private-key
+        name: "Detect Private Keys"
+        description: "Prevents committing files that appear to contain private keys."
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+      - id: insert-license
+        name: "Insert License Header"
+        description: "Inserts license headers into files."
+        files: \.js$
+        args:
+          [
+            "--license-filepath",
+            "LICENSE_HEADER.txt",
+            "--comment-style",
+            "",
+            "--use-current-year",
+            "--no-extra-eol",
+          ]

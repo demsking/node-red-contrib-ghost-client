@@ -1,0 +1,94 @@
+<script type="text/javascript">
+  RED.nodes.registerType('ghost-config', {
+    category: 'Ghost Client',
+    color: '#c0bfbc', // gray
+    defaults: {
+      name: { value: '' },
+      ghostAdminApiUrl: { value: '', required: true },
+      ghostAdminApiUrlType: { value: 'str' },
+      ghostAdminApiKey: { value: '', required: true },
+      ghostAdminApiKeyType: { value: 'str' },
+      ghostApiVersion: { value: 'v5.0' },
+      ghostApiVersionType: { value: 'str' },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-key",
+    paletteLabel: "Set Config",
+    label() {
+      return this.name || "Set Ghost Config";
+    },
+    oneditprepare() {
+      $('#node-input-ghostAdminApiUrl').typedInput({
+        type: 'str',
+        types: ['str', 'flow', 'global', 'env'],
+        typeField: '#node-input-ghostAdminApiUrlType'
+      });
+
+      $('#node-input-ghostAdminApiKey').typedInput({
+        type: 'str',
+        types: ['str', 'flow', 'global', 'env'],
+        typeField: '#node-input-ghostAdminApiKeyType'
+      });
+
+      $('#node-input-ghostApiVersion').typedInput({
+        type: 'str',
+        types: ['str', 'flow', 'global', 'env'],
+        typeField: '#node-input-ghostApiVersionType'
+      });
+    },
+  });
+</script>
+
+<script type="text/x-red" data-template-name="ghost-config">
+  <div class="form-row">
+    <label for="node-input-name">Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-ghostAdminApiUrl">Admin API Url</label>
+    <input type="text" id="node-input-ghostAdminApiUrl" placeholder="Ghost Admin API URL">
+    <input type="hidden" id="node-input-ghostAdminApiUrlType" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-ghostAdminApiKey">Admin API Key</label>
+    <input type="text" id="node-input-ghostAdminApiKey" placeholder="Ghost Admin API Key">
+    <input type="hidden" id="node-input-ghostAdminApiKeyType" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-ghostApiVersion">API Version</label>
+    <input type="text" id="node-input-ghostApiVersion" placeholder="Ghost API Version">
+    <input type="hidden" id="node-input-ghostApiVersionType" />
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="ghost-config">
+  <p>
+    The <strong>Ghost Config</strong> node securely stores and shares Ghost Admin API credentials with other Ghost-related nodes in your flow.
+  </p>
+  <ul>
+    <li>
+      <strong>Ghost Admin API URL</strong>: The base URL of your Ghost Admin API.
+      <br><em>Example:</em> <code>https://your-ghost-site.com</code>
+    </li>
+    <li>
+      <strong>Ghost Admin API Key</strong>: A valid Admin API key generated from the <em>Integrations</em> section of your Ghost Admin interface.
+    </li>
+    <li>
+      <strong>Ghost API Version</strong>: The version of the Ghost Admin API to use (default is <code>v5.0</code>).
+      <br>This can be set to any valid version supported by your Ghost instance.
+    </li>
+  </ul>
+  <p>
+    All fields support input from <code>str</code>, <code>env</code>, <code>flow</code>, or <code>global</code> contexts using the typed input.
+  </p>
+  <p>
+    This node is configuration-only and does not send messages. It is used by other Ghost nodes to authenticate API requests.
+  </p>
+  <p>
+    For full details on authentication and usage, refer to the
+    <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
+      official Ghost Admin API documentation
+    </a>.
+  </p>
+</script>

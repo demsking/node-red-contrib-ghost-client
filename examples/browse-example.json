@@ -1,0 +1,106 @@
+[
+  {
+    "id": "714434797478f9c4",
+    "type": "tab",
+    "label": "Browse Ghost Posts",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "3c949e0a1e6e6724",
+    "type": "debug",
+    "z": "714434797478f9c4",
+    "name": "Response",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 800,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "96ed90e426050660",
+    "type": "debug",
+    "z": "714434797478f9c4",
+    "name": "Error",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 790,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "92f75e37e6e1c343",
+    "type": "inject",
+    "z": "714434797478f9c4",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"limit\":5}",
+    "payloadType": "json",
+    "x": 140,
+    "y": 180,
+    "wires": [
+      [
+        "bdd02d5f5661a8ad"
+      ]
+    ]
+  },
+  {
+    "id": "bdd02d5f5661a8ad",
+    "type": "ghost-config",
+    "z": "714434797478f9c4",
+    "name": "",
+    "ghostAdminApiUrl": "GHOST_ADMIN_API_URL",
+    "ghostAdminApiUrlType": "env",
+    "ghostAdminApiKey": "GHOST_ADMIN_API_KEY",
+    "ghostAdminApiKeyType": "env",
+    "ghostApiVersion": "v5.0",
+    "ghostApiVersionType": "str",
+    "x": 310,
+    "y": 180,
+    "wires": [
+      [
+        "39a74af7160dc2b5"
+      ]
+    ]
+  },
+  {
+    "id": "39a74af7160dc2b5",
+    "type": "ghost-browse",
+    "z": "714434797478f9c4",
+    "name": "",
+    "options": "payload",
+    "optionsType": "msg",
+    "x": 540,
+    "y": 180,
+    "wires": [
+      [
+        "3c949e0a1e6e6724"
+      ],
+      [
+        "96ed90e426050660"
+      ]
+    ]
+  }
+]

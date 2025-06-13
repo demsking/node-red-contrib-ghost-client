@@ -1,0 +1,14 @@
+{
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "files.trimTrailingWhitespace": true,
+  "files.exclude": {
+    "**/.devbox": true,
+    "**/.directory": true,
+    "**/.coverage": true,
+    "**/.direnv": true,
+    "**/.nyc_output": true,
+    "**/dist": true
+  }
+}

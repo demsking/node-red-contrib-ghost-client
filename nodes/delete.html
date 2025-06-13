@@ -1,0 +1,70 @@
+<script type="text/javascript">
+  RED.nodes.registerType('ghost-delete', {
+    category: 'Ghost Client',
+    color: '#F5A3A3', // red
+    defaults: {
+      name: { value: '' },
+      deletePostId: { value: '', required: true },
+      deletePostIdType: { value: 'str' },
+    },
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["Success", "Error"],
+    icon: "font-awesome/fa-trash",
+    paletteLabel: "Delete Post",
+    label() {
+      return this.name || "Delete Ghost Post";
+    },
+    oneditprepare() {
+      $('#node-input-deletePostId').typedInput({
+        type: 'str',
+        types: ['str', 'msg', 'flow', 'global'],
+        typeField: '#node-input-deletePostIdType'
+      });
+    },
+    oneditsave() { },
+    oneditcancel() { },
+    oneditdelete() { },
+    oneditresize() { }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="ghost-delete">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-deletePostId"><i class="fa fa-deletePostId-badge"></i> Post ID</label>
+    <input type="text" id="node-input-deletePostId" placeholder="Post ID">
+    <input type="hidden" id="node-input-deletePostIdType" />
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="ghost-delete">
+  <p>
+    The <strong>Delete Post</strong> node removes a post from Ghost CMS using the Admin API.
+  </p>
+  <ul>
+    <li>
+      <strong>Post ID</strong>: The unique identifier of the post to delete.
+      <br>Can be passed as a literal string or from <code>msg</code>, <code>flow</code>, or <code>global</code> context.
+    </li>
+    <li>
+      Requires a Ghost Config node to authenticate requests.
+    </li>
+    <li>
+      On success, <code>msg.payload</code> will be:
+      <pre>{ success: true, id: "your-post-deletePostId" }</pre>
+    </li>
+    <li>
+      On failure, the error will be passed to the second output.
+    </li>
+  </ul>
+  <p>
+    Refer to the
+    <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
+      Ghost Admin API documentation
+    </a> for more information on deleting posts.
+  </p>
+</script>

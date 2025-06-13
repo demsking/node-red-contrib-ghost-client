@@ -1,0 +1,86 @@
+<script type="text/javascript">
+  RED.nodes.registerType('ghost-edit', {
+    category: 'Ghost Client',
+    color: '#F5E6A3', // yellow
+    defaults: {
+      name: { value: '' },
+      editPostId: { value: '', required: true },
+      editPostIdType: { value: 'str' },
+      updatePayload: { value: '', required: true },
+      updatePayloadType: { value: 'json' },
+    },
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["Success", "Error"],
+    icon: "font-awesome/fa-pencil-square-o",
+    paletteLabel: "Edit Post",
+    label() {
+      return this.name || "Edit Ghost Post";
+    },
+    oneditprepare() {
+      $('#node-input-editPostId').typedInput({
+        type: 'str',
+        types: ['str', 'msg', 'flow', 'global'],
+        typeField: '#node-input-editPostIdType'
+      });
+      $('#node-input-updatePayload').typedInput({
+        type: 'json',
+        types: ['json', 'msg', 'flow', 'global'],
+        typeField: '#node-input-updatePayloadType'
+      });
+    },
+    oneditsave() { },
+    oneditcancel() { },
+    oneditdelete() { },
+    oneditresize() { }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="ghost-edit">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-editPostId"><i class="fa fa-editPostId-badge"></i> Post ID</label>
+    <input type="text" id="node-input-editPostId" placeholder="Post ID">
+    <input type="hidden" id="node-input-editPostIdType" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-updatePayload"><i class="fa fa-file-text"></i> Post Payload</label>
+    <input type="text" id="node-input-updatePayload" placeholder='{"title":"Updated Title"}'>
+    <input type="hidden" id="node-input-updatePayloadType" />
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="ghost-edit">
+  <p>
+    The <strong>Edit Post</strong> node updates an existing post in Ghost CMS using the Admin API.
+  </p>
+  <ul>
+    <li>
+      <strong>Post ID</strong>: The unique identifier of the post to update.
+      <br>Supports <code>str</code>, <code>msg</code>, <code>flow</code>, or <code>global</code> contexts.
+    </li>
+    <li>
+      <strong>Post Payload</strong>: A JSON object containing the fields to be updated.
+      <br>Example: <code>{"title": "New Title", "status": "draft"}</code>
+      <br>Can be set as a literal or from context.
+    </li>
+    <li>
+      Requires a Ghost Config node to authenticate requests.
+    </li>
+    <li>
+      On success, <code>msg.payload</code> contains the updated post object.
+    </li>
+    <li>
+      On error, the second output provides an error object.
+    </li>
+  </ul>
+  <p>
+    Refer to the
+    <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
+      Ghost Admin API documentation
+    </a> for more information on editable post fields.
+  </p>
+</script>

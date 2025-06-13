@@ -1,0 +1,72 @@
+<script type="text/javascript">
+  RED.nodes.registerType('ghost-browse', {
+    category: 'Ghost Client',
+    color: '#A3D3F5',
+    defaults: {
+      name: { value: '' },
+      options: { value: '{}', required: false },
+      optionsType: { value: 'json' },
+    },
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["Success", "Error"],
+    icon: "font-awesome/fa-eye",
+    paletteLabel: "Browse Posts",
+    label() {
+      return this.name || "Browse Ghost Posts";
+    },
+    oneditprepare() {
+      $('#node-input-options').typedInput({
+        type: 'json',
+        types: ['json', 'msg', 'flow', 'global'],
+        typeField: '#node-input-optionsType'
+      });
+    },
+    oneditsave() { },
+    oneditcancel() { },
+    oneditdelete() { },
+    oneditresize() { }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="ghost-browse">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-options"><i class="fa fa-cogs"></i> Options</label>
+    <input type="text" id="node-input-options" placeholder='{"limit":5}'>
+    <input type="hidden" id="node-input-optionsType" />
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="ghost-browse">
+  <p>
+    The <strong>Browse Posts</strong> node retrieves a list of posts from Ghost CMS using the Admin API.
+  </p>
+  <ul>
+    <li>
+      <strong>Options</strong>: A JSON object used to filter, limit, or order the returned posts.
+      <br><em>Example:</em> <code>{ "limit": 5, "order": "published_at desc" }</code>
+    </li>
+    <li>
+      Supports input types: <code>json</code>, <code>msg</code>, <code>flow</code>, and <code>global</code>.
+    </li>
+    <li>
+      Requires a Ghost Config node to authenticate requests.
+    </li>
+    <li>
+      On success, an array of post objects is set to <code>msg.payload</code> and sent to the first output.
+    </li>
+    <li>
+      On failure, the error is sent to the second output.
+    </li>
+  </ul>
+  <p>
+    Refer to the
+    <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
+      Ghost Admin API documentation
+    </a> for details on query options.
+  </p>
+</script>
