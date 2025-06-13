@@ -2,15 +2,16 @@
 
 [![Buy me a beer](https://img.shields.io/badge/Buy%20me-a%20beer-1f425f.svg)](https://www.buymeacoffee.com/demsking)
 
-A Node-RED node package providing nodes to interact with the Ghost Admin API using the official `@tryghost/admin-api` client.
+A Node-RED node package providing nodes to interact with the Ghost Admin API
+using the official `@tryghost/admin-api` client.
 
 ## Features
 
-- Browse, read, create (post), edit, and delete Ghost resources (posts, pages, etc.)
-- Typed input fields for all node properties (supporting string, JSON, msg, flow, global)
+- Browse, read, create (post), edit, and delete Ghost posts
+- Typed input fields for all node properties (supporting string, JSON, msg,
+  flow, global)
 - Two outputs for each node: success and error
 - Error handling and output for all API calls
-- Shared utility and node factory for DRY code
 - Example flows included
 
 ## Install
@@ -31,20 +32,6 @@ Add any of the Ghost nodes to your flow:
 - **ghost-edit**: Edit an existing post
 - **ghost-delete**: Delete a post
 
-### Example Flows
-
-See the `examples/ghost-client-examples.json` file for ready-to-import flows demonstrating browse and post operations with success/error outputs.
-
-#### Example: Create a Post
-
-```json
-[
-  { "id": "post1", "type": "ghost-create", "name": "Create Post", "postData": "{\"title\":\"Hello World\",\"status\":\"draft\"}", "postDataType": "json", "wires": [["success1"], ["error1"]] },
-  { "id": "success1", "type": "debug", "name": "Success Output", "wires": [] },
-  { "id": "error1", "type": "debug", "name": "Post Error", "wires": [] }
-]
-```
-
 ### Node Properties
 
 Each node provides typed input fields for all required properties. See the node's help in the Node-RED editor for details and links to the [Ghost Admin API documentation](https://ghost.org/docs/admin-api/).
@@ -57,5 +44,6 @@ Each node provides typed input fields for all required properties. See the node'
 
 ## License
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License.
 You may obtain a copy of the License at [LICENSE](./LICENSE).
