@@ -90,8 +90,8 @@
     "type": "ghost-delete",
     "z": "1c224f202ea6ad8f",
     "name": "",
-    "deletePostId": "payload.id",
-    "deletePostIdType": "msg",
+    "deleteId": "payload.id",
+    "deleteIdType": "msg",
     "x": 570,
     "y": 260,
     "wires": [

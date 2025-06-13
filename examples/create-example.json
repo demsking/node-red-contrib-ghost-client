@@ -90,8 +90,8 @@
     "type": "ghost-create",
     "z": "1c224f202ea6ad8f",
     "name": "",
-    "postPayload": "payload",
-    "postPayloadType": "msg",
+    "createPayload": "payload",
+    "createPayloadType": "msg",
     "x": 610,
     "y": 260,
     "wires": [

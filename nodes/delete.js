@@ -19,7 +19,7 @@ module.exports = (RED) => {
     RED,
     nodeType: 'ghost-delete',
     async handler({ node, config, msg, ghost }) {
-      const id = await getTypedValue(RED, node, msg, config.deletePostId, config.deletePostIdType);
+      const id = await getTypedValue(RED, node, msg, config.deleteId, config.deleteIdType);
 
       if (id) {
         await ghost.posts.delete({ id });

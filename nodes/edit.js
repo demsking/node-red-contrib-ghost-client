@@ -19,8 +19,9 @@ module.exports = (RED) => {
     RED,
     nodeType: 'ghost-edit',
     async handler({ node, config, msg, ghost }) {
-      const id = await getTypedValue(RED, node, msg, config.editPostId, config.editPostIdType);
-      const payload = await getTypedValue(RED, node, msg, config.updatePayload, config.updatePayloadType);
+      const id = await getTypedValue(RED, node, msg, config.editId, config.editIdType);
+      const payload = await getTypedValue(RED, node, msg, config.editPayload, config.editPayloadType);
+      const source = await getTypedValue(RED, node, msg, config.editParamSource, config.editParamSourceType);
 
       if (!id) {
         throw new Error('Post ID is required');
@@ -30,7 +31,7 @@ module.exports = (RED) => {
         throw new Error('Post Payload is required');
       }
 
-      msg.payload = await ghost.posts.edit({ ...payload, id });
+      msg.payload = await ghost.posts.edit({ ...payload, id }, { source });
     },
   });
 };

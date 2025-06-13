@@ -38,6 +38,7 @@
     "@tryghost/admin-api": "^1.13.16"
   },
   "devDependencies": {
+    "chai": "^5.2.0",
     "mocha": "^9.2.2",
     "mock-require": "^3.0.3",
     "node-red": "^4.0.9",

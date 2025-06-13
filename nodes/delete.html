@@ -4,8 +4,8 @@
     color: '#F5A3A3', // red
     defaults: {
       name: { value: '' },
-      deletePostId: { value: '', required: true },
-      deletePostIdType: { value: 'str' },
+      deleteId: { value: '', required: true },
+      deleteIdType: { value: 'str' },
     },
     inputs: 1,
     outputs: 2,
@@ -16,10 +16,10 @@
       return this.name || "Delete Ghost Post";
     },
     oneditprepare() {
-      $('#node-input-deletePostId').typedInput({
+      $('#node-input-deleteId').typedInput({
         type: 'str',
         types: ['str', 'msg', 'flow', 'global'],
-        typeField: '#node-input-deletePostIdType'
+        typeField: '#node-input-deleteIdType'
       });
     },
     oneditsave() { },
@@ -35,9 +35,9 @@
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
-    <label for="node-input-deletePostId"><i class="fa fa-deletePostId-badge"></i> Post ID</label>
-    <input type="text" id="node-input-deletePostId" placeholder="Post ID">
-    <input type="hidden" id="node-input-deletePostIdType" />
+    <label for="node-input-deleteId"><i class="fa fa-deleteId-badge"></i> Post ID</label>
+    <input type="text" id="node-input-deleteId" placeholder="Post ID">
+    <input type="hidden" id="node-input-deleteIdType" />
   </div>
 </script>
 
@@ -55,7 +55,7 @@
     </li>
     <li>
       On success, <code>msg.payload</code> will be:
-      <pre>{ success: true, id: "your-post-deletePostId" }</pre>
+      <pre>{ success: true, id: "your-post-deleteId" }</pre>
     </li>
     <li>
       On failure, the error will be passed to the second output.

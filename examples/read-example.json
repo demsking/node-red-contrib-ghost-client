@@ -90,8 +90,8 @@
     "type": "ghost-read",
     "z": "1c224f202ea6ad8f",
     "name": "",
-    "readPostId": "payload.id",
-    "readPostIdType": "msg",
+    "readId": "payload.id",
+    "readIdType": "msg",
     "x": 610,
     "y": 260,
     "wires": [

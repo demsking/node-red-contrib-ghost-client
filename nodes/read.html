@@ -1,26 +1,44 @@
 <script type="text/javascript">
   RED.nodes.registerType('ghost-read', {
     category: 'Ghost Client',
-    color: '#D1A3F5', // purple
+    color: '#D1A3F5',
     defaults: {
       name: { value: '' },
-      readPostId: { value: '', required: true },
-      readPostIdType: { value: 'str' },
+      readId: { value: '', required: true },
+      readIdType: { value: 'str' },
+      readParamSource: { value: '' },
+      readParamSourceType: { value: 'str' },
+      readParamFields: { value: '' },
+      readParamFieldsType: { value: 'str' },
+      readParamInclude: { value: '' },
+      readParamIncludeType: { value: 'str' }
     },
     inputs: 1,
     outputs: 2,
-    outputLabels: ["Success", "Error"],
-    icon: "font-awesome/fa-search",
-    paletteLabel: "Read Post",
+    outputLabels: ['Success', 'Error'],
+    icon: 'font-awesome/fa-search',
+    paletteLabel: 'Read Post',
     label() {
-      return this.name || "Read Ghost Post";
+      return this.name || 'Read Ghost Post';
     },
     oneditprepare() {
-      $('#node-input-readPostId').typedInput({
+      $('#node-input-readId').typedInput({
         type: 'str',
         types: ['str', 'msg', 'flow', 'global'],
-        typeField: '#node-input-readPostIdType'
+        typeField: '#node-input-readIdType'
       });
+
+      const arrayFields = ['readParamSource', 'readParamFields', 'readParamInclude'];
+
+      for (const fieldName of arrayFields) {
+        const field = $(`#node-input-${fieldName}`);
+
+        field.typedInput({
+          type: 'json',
+          types: ['str', 'msg', 'flow', 'global'],
+          typeField: `#node-input-${fieldName}Type`,
+        });
+      }
     },
     oneditsave() { },
     oneditcancel() { },
@@ -35,9 +53,24 @@
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
-    <label for="node-input-readPostId"><i class="fa fa-id-badge"></i> Post ID</label>
-    <input type="text" id="node-input-readPostId" placeholder="Post ID">
-    <input type="hidden" id="node-input-readPostIdType" />
+    <label for="node-input-readId"><i class="fa fa-id-badge"></i> Post ID</label>
+    <input type="text" id="node-input-readId" placeholder="Post ID">
+    <input type="hidden" id="node-input-readIdType" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-readParamSource"><i class="fa fa-code"></i> Source</label>
+    <input type="text" id="node-input-readParamSource" placeholder="html, lexical">
+    <input type="hidden" id="node-input-readParamSourceType" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-readParamFields"><i class="fa fa-filter"></i> Fields</label>
+    <input type="text" id="node-input-readParamFields" placeholder="id, title, excerpt">
+    <input type="hidden" id="node-input-readParamFieldsType" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-readParamInclude"><i class="fa fa-plus-circle"></i> Include</label>
+    <input type="text" id="node-input-readParamInclude" placeholder="authors, tags">
+    <input type="hidden" id="node-input-readParamIncludeType" />
   </div>
 </script>
 
@@ -45,25 +78,24 @@
   <p>
     The <strong>Read Post</strong> node retrieves a single post from Ghost CMS using the Admin API.
   </p>
+
+  <p><strong>Inputs:</strong></p>
   <ul>
-    <li>
-      <strong>Post ID</strong>: The unique identifier of the post to retrieve.
-      <br>Supports input from <code>str</code>, <code>msg</code>, <code>flow</code>, or <code>global</code> context.
-    </li>
-    <li>
-      Requires a Ghost Config node to authenticate requests.
-    </li>
-    <li>
-      On success, <code>msg.payload</code> contains the full post object returned by the Ghost Admin API.
-    </li>
-    <li>
-      On error, the second output returns an error object with details.
-    </li>
+    <li><strong>Post ID</strong>: Unique identifier of the post to retrieve. Accepts a string.</li>
+    <li><strong>Source</strong>: Optional source formats. Accepts a string (e.g. <code>"html, lexical"</code>) or an array of strings (e.g. <code>["html", "lexical"]</code>) when defined on <code>msg</code>, <code>flow</code>, or <code>global</code>.</li>
+    <li><strong>Fields</strong>: Optional fields to return. Accepts a string (e.g. <code>"id, title, excerpt"</code>) or an array of strings (e.g. <code>["title", "html"]</code>) when defined on <code>msg</code>, <code>flow</code>, or <code>global</code>.</li>
+    <li><strong>Include</strong>: Optional related resources. Accepts a string (e.g. <code>"authors, tags"</code>) or an array of strings (e.g. <code>["authors", "tags"]</code>) when defined on <code>msg</code>, <code>flow</code>, or <code>global</code>.</li>
+    <li>All inputs support the following types: <code>str</code>, <code>msg</code>, <code>flow</code>, or <code>global</code>.</li>
+    <li>Requires a configured Ghost Admin API connection (Admin API URL and key).</li>
   </ul>
+
+  <p><strong>Outputs:</strong></p>
+  <ul>
+    <li><strong>Output 1 (Success)</strong>: <code>msg.payload</code> contains the retrieved post object.</li>
+    <li><strong>Output 2 (Error)</strong>: <code>msg.error</code> contains an error object describing the failure.</li>
+  </ul>
+
   <p>
-    See the
-    <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
-      Ghost Admin API documentation
-    </a> for details on available fields and query parameters.
+    For more details, refer to the <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">Ghost Admin API documentation</a>.
   </p>
 </script>

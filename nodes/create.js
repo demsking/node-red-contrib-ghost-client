@@ -19,10 +19,12 @@ module.exports = (RED) => {
     RED,
     nodeType: 'ghost-create',
     async handler({ node, config, msg, ghost }) {
-      const payload = await getTypedValue(RED, node, msg, config.postPayload, config.postPayloadType);
+      const payload = await getTypedValue(RED, node, msg, config.createPayload, config.createPayloadType);
 
       if (payload) {
-        msg.payload = await ghost.posts.add(payload);
+        const source = await getTypedValue(RED, node, msg, config.createParamSource, config.createParamSourceType);
+
+        msg.payload = await ghost.posts.add(payload, { source });
       } else {
         throw new Error('Post Payload is required');
       }

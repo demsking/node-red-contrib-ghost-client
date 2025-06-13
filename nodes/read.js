@@ -13,16 +13,21 @@
 // limitations under the License.
 // ==============================================================================
 module.exports = (RED) => {
-  const { createGhostNode, getTypedValue } = require('../lib/ghost-node-factory');
+  const { createGhostNode, getTypedValue, parseRequestParams } = require('../lib/ghost-node-factory');
 
   createGhostNode({
     RED,
     nodeType: 'ghost-read',
     async handler({ node, config, msg, ghost }) {
-      const id = await getTypedValue(RED, node, msg, config.readPostId, config.readPostIdType);
+      const id = await getTypedValue(RED, node, msg, config.readId, config.readIdType);
 
       if (id) {
-        msg.payload = await ghost.posts.read({ id });
+        const source = await getTypedValue(RED, node, msg, config.readParamSource, config.readParamSourceType);
+        const fields = await getTypedValue(RED, node, msg, config.readParamFields, config.readParamFieldsType);
+        const include = await getTypedValue(RED, node, msg, config.readParamInclude, config.readParamIncludeType);
+        const params = parseRequestParams({ source, fields, include });
+
+        msg.payload = await ghost.posts.read({ id }, params);
       } else {
         throw new Error('Post ID is required');
       }

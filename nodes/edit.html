@@ -4,10 +4,12 @@
     color: '#F5E6A3', // yellow
     defaults: {
       name: { value: '' },
-      editPostId: { value: '', required: true },
-      editPostIdType: { value: 'str' },
-      updatePayload: { value: '', required: true },
-      updatePayloadType: { value: 'json' },
+      editId: { value: '', required: true },
+      editIdType: { value: 'str' },
+      editPayload: { value: '', required: true },
+      editPayloadType: { value: 'json' },
+      editParamSource: { value: '' },
+      editParamSourceType: { value: 'str' },
     },
     inputs: 1,
     outputs: 2,
@@ -18,15 +20,22 @@
       return this.name || "Edit Ghost Post";
     },
     oneditprepare() {
-      $('#node-input-editPostId').typedInput({
+      $('#node-input-editId').typedInput({
         type: 'str',
         types: ['str', 'msg', 'flow', 'global'],
-        typeField: '#node-input-editPostIdType'
+        typeField: '#node-input-editIdType'
       });
-      $('#node-input-updatePayload').typedInput({
+
+      $('#node-input-editPayload').typedInput({
         type: 'json',
         types: ['json', 'msg', 'flow', 'global'],
-        typeField: '#node-input-updatePayloadType'
+        typeField: '#node-input-editPayloadType'
+      });
+
+      $('#node-input-editParamSource').typedInput({
+        type: 'json',
+        types: ['str', 'msg', 'flow', 'global'],
+        typeField: '#node-input-editParamSourceType',
       });
     },
     oneditsave() { },
@@ -42,45 +51,58 @@
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
-    <label for="node-input-editPostId"><i class="fa fa-editPostId-badge"></i> Post ID</label>
-    <input type="text" id="node-input-editPostId" placeholder="Post ID">
-    <input type="hidden" id="node-input-editPostIdType" />
+    <label for="node-input-editId"><i class="fa fa-editId-badge"></i> Post ID</label>
+    <input type="text" id="node-input-editId" placeholder="Post ID">
+    <input type="hidden" id="node-input-editIdType" />
   </div>
   <div class="form-row">
-    <label for="node-input-updatePayload"><i class="fa fa-file-text"></i> Post Payload</label>
-    <input type="text" id="node-input-updatePayload" placeholder='{"title":"Updated Title"}'>
-    <input type="hidden" id="node-input-updatePayloadType" />
+    <label for="node-input-editPayload"><i class="fa fa-file-text"></i> Post Payload</label>
+    <input type="text" id="node-input-editPayload" placeholder='{"title":"Updated Title"}'>
+    <input type="hidden" id="node-input-editPayloadType" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-editParamSource"><i class="fa fa-code"></i> Source</label>
+    <input type="text" id="node-input-editParamSource" placeholder="html">
+    <input type="hidden" id="node-input-editParamSourceType" />
   </div>
 </script>
 
 <script type="text/x-red" data-help-name="ghost-edit">
   <p>
-    The <strong>Edit Post</strong> node updates an existing post in Ghost CMS using the Admin API.
+    The <strong>Edit Post</strong> node sends an update request to the Ghost Admin API to modify an existing blog post.
   </p>
   <ul>
     <li>
-      <strong>Post ID</strong>: The unique identifier of the post to update.
-      <br>Supports <code>str</code>, <code>msg</code>, <code>flow</code>, or <code>global</code> contexts.
+      <strong>Post ID</strong>: A string identifying the post to edit.
+      <br><em>Example:</em> <code>"64a7e1fc3b230001b1a43d6c"</code>
+      <br>Supports input types: <code>str</code>, <code>msg</code>, <code>flow</code>, and <code>global</code>.
     </li>
     <li>
-      <strong>Post Payload</strong>: A JSON object containing the fields to be updated.
-      <br>Example: <code>{"title": "New Title", "status": "draft"}</code>
-      <br>Can be set as a literal or from context.
+      <strong>Post Payload</strong>: A valid JSON object representing the fields to update.
+      <br><em>Example:</em> <code>{ "title": "Updated Title", "status": "draft" }</code>
+      <br>Supports input types: <code>json</code>, <code>msg</code>, <code>flow</code>, and <code>global</code>.
     </li>
     <li>
-      Requires a Ghost Config node to authenticate requests.
+      <strong>Source</strong>: Optional string indicating the field to edit in the content object (e.g., <code>html</code> or <code>mobiledoc</code>).
+      <br>Supports input types: <code>str</code>, <code>msg</code>, <code>flow</code>, and <code>global</code>.
     </li>
     <li>
-      On success, <code>msg.payload</code> contains the updated post object.
+      Requires a Ghost Config node in the same flow for authentication.
+    </li>
+  </ul>
+  <p><strong>Outputs:</strong></p>
+  <ul>
+    <li>
+      <strong>Output 1 (Success)</strong>: Sends <code>msg.payload</code> containing the updated post object.
     </li>
     <li>
-      On error, the second output provides an error object.
+      <strong>Output 2 (Error)</strong>: Sends an error object describing the failure.
     </li>
   </ul>
   <p>
     Refer to the
     <a href="https://ghost.org/docs/admin-api/" target="_blank" rel="noopener noreferrer">
       Ghost Admin API documentation
-    </a> for more information on editable post fields.
+    </a> for details on editable post fields.
   </p>
 </script>
